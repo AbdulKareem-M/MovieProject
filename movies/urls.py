@@ -17,10 +17,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from movieapp.views import AddMovie
+from movieapp.views import AddMovie,ListMovies, UpdateMovie, DeleteMovie
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('addmovie/', AddMovie.as_view()),
-
+    path('movies/',ListMovies.as_view()),
+    path('update/<int:pk>',UpdateMovie.as_view()),
+    path('delete/<int:pk>',DeleteMovie.as_view()),
 ]

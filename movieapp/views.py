@@ -25,3 +25,47 @@ class AddMovie(View):
       
       return render(request, 'addmovie.html', {'form':form})
     
+class ListMovies(View):
+  
+  def get(self, request):
+    
+    data = MovieModel.objects.all()
+    
+    return render(request, 'movies.html', {'data':data})
+
+class UpdateMovie(View):
+  
+  def get(self, request, **kwargs):
+    
+    id = kwargs.get('pk')
+    
+    data = MovieModel.objects.get(id=id)
+    
+    form = MovieForm(instance=data)
+    
+    return render(request, 'updatemovie.html',{'form':form})
+  
+  
+  def post(self, request, **kwargs):
+    
+    id = kwargs.get('pk')
+    
+    data = MovieModel.objects.get(id=id)
+    
+    form = MovieForm(request.POST, instance=data)
+    
+    if form.is_valid():
+      
+      form.save()
+      
+    return render(request, 'updatemovie.html', {'form':form})
+  
+class DeleteMovie(View):
+  
+  def get(self, request, **kwargs):
+    
+    id = kwargs.get('pk')
+    
+    MovieModel.objects.get(id=id).delete()
+    
+    return render(request,'delete.html')  
